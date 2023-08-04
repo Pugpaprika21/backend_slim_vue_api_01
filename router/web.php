@@ -22,6 +22,10 @@ $app->get('/getUsers', function (Request $request, Response $response, array $ar
 
     $params = $request->getQueryParams();
 
+    if (!isset($params['token'])) {
+        throw new Exception('AUTHORIZED_ERROR', 1);
+    }
+
     if ($params['token'] == AUTHORIZED) {
 
         $users = $query->table("user_tb")->where('user_status', '=', 'Y')->orderBy('create_date_at', 'desc')->get();
