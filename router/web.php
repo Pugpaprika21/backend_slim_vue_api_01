@@ -39,9 +39,35 @@ $app->get('/getUsers', function (Request $request, Response $response, array $ar
             $payload = json_encode(['data' => $users, 'status_bool' => false, 'rows' => $rows]);
             $response->getBody()->write($payload);
         }
-
     } else {
         $payload = json_encode(['data' => [], 'status_bool' => false, 'massage' => 'AUTHORIZED_ERROR', 'rows' => 0]);
+        $response->getBody()->write($payload);
+    }
+
+    return $response
+        ->withHeader('Access-Control-Allow-Methods', 'GET')
+        ->withHeader('Access-Control-Allow-Headers', '*')
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Content-Type', 'application/json')->withStatus(201);
+});
+
+$app->get('/editUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
+
+    $userId = str($args['userId']);
+    $params = $request->getQueryParams();
+
+    if (!isset($params['token'])) {
+        throw new Exception('AUTHORIZED_ERROR', 1);
+    }
+
+    $user = $query->table("user_tb")->where('user_id', '=', $userId)->get();
+    $rows = count($user);
+
+    if ($params['token'] == AUTHORIZED) {
+        $payload = json_encode(['data' => $user, 'status_bool' => true, 'rows' => $rows]);
+        $response->getBody()->write($payload);
+    } else {
+        $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => $rows]);
         $response->getBody()->write($payload);
     }
 
