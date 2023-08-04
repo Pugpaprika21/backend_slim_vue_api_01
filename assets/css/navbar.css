@@ -1,0 +1,47 @@
+#nav-main {
+    background-color: #00831A;
+}
+
+.navbar-brand-main {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.navbar-brand-main:hover {
+    color: #ffffff;
+}
+
+.nav-main-link {
+    font-size: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.nav-main-link:hover {
+    color: #1fdb8a;
+    text-decoration: underline;
+}
+
+.nav-main-link-sub {
+    color: #2E4053;
+    font-size: 12px;
+}
+
+.nav-main-link-sub:hover {
+    color: #ffffff;
+    background-color: #00831A;
+}
+
+.dropdown-menu-main {
+    border-radius: 0px;
+}
+
+.main-text {
+    color: #ffffff;
+    background-color: #00831A;
+}
+
+.card-main {
+    margin-top: 30px;
+}

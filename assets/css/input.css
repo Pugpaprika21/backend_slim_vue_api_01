@@ -1,0 +1,78 @@
+/* input */
+
+.custom-input-text {
+    font-size: 12px;
+    height: 30px;
+    border-radius: 0px;
+    border-color: #88d497;
+}
+
+.custom-input-text:hover {
+    border-color: #00831A;
+}
+
+.custom-input-span-text {
+    font-size: 12px;
+    height: 30px;
+    border-radius: 0px;
+    color: #ffffff;
+    background-color: #3c7a48;
+}
+
+.color-picker-input {
+    font-size: 12px;
+    height: 30px;
+    border-radius: 0px;
+    border-color: #88d497;
+}
+
+.color-picker-input:hover {
+    border-color: #00831A;
+}
+
+.custom-input-file {
+    font-size: 12px;
+    height: 30px;
+    border-radius: 0px;
+    border-color: #88d497;
+}
+
+.custom-input-file:hover {
+    border-color: #00831A;
+}
+
+.custom-input-file::after {
+    content: "เลือกไฟล์ภาพ navbar";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    background-color: #3c7a48;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.custom-input-file {
+    position: relative;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+}
+
+.custom-input-file::-webkit-file-upload-button {
+    visibility: hidden;
+    display: none;
+}
+
+
+/* orther */
+
+#image-navbar {
+    border-color: #00831A;
+}
+
+.custom-input-text:valid:not(:placeholder-shown) {
+    background-color: #F9F9F9;
+}

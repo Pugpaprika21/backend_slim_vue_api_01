@@ -1,0 +1,11 @@
+php -S localhost:8080 -t public router/index.php
+
+composer require illuminate/database
+composer remove illuminate/database "~5.1"
+composer update
+
+
+route param --
+
+$app->get('/', [HomeController::class, 'indexPage'])->setName('index-page');
+$app->get('/page/user/[{id}/{action}]', [HomeController::class, 'formHome'])->setName('home-page');
