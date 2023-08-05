@@ -50,7 +50,7 @@ $app->post('/createUser', function (Request $request, Response $response, array 
         ]);
 
         if ($create) {
-            $rowCreate = $query->table('user_tb')->select('user_id')->orderBy('user_id', 'desc')->get();
+            $rowCreate = $query->excute('select * from user_tb order by user_id desc limit 1');
             $rows = count($rowCreate);
 
             $payload = json_encode(['data' => $rowCreate, 'status_bool' => true, 'rows' => $rows]);
