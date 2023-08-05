@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '69048c59f13fe05c401b8e2f5926122593cc501c',
+        'reference' => 'd17486acd118c59860e54d44c371fe4c5e702a97',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '69048c59f13fe05c401b8e2f5926122593cc501c',
+            'reference' => 'd17486acd118c59860e54d44c371fe4c5e702a97',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -109,6 +109,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'neomerx/cors-psr7' => array(
+            'pretty_version' => '3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => '515d7fdb60b9d475da70029d4e5662beaae1875f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../neomerx/cors-psr7',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'nesbot/carbon' => array(
             'pretty_version' => '2.67.0',
             'version' => '2.67.0.0',
@@ -155,6 +164,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
+                1 => '^1.0',
             ),
         ),
         'psr/http-message' => array(
@@ -303,6 +313,33 @@
             'provided' => array(
                 0 => '2.3|3.0',
             ),
+        ),
+        'tuupola/callable-handler' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '0bc7b88630ca753de9aba8f411046856f5ca6f8c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tuupola/callable-handler',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'tuupola/cors-middleware' => array(
+            'pretty_version' => '1.4.3',
+            'version' => '1.4.3.0',
+            'reference' => '8fd7674f4c1910203685765f2e26ecdde57a25ab',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tuupola/cors-middleware',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'tuupola/http-factory' => array(
+            'pretty_version' => '1.4.0',
+            'version' => '1.4.0.0',
+            'reference' => 'ae3f8fbdd31cf2f1bbe920b38963c5e4d1e9c454',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tuupola/http-factory',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'twig/twig' => array(
             'pretty_version' => 'v3.6.1',

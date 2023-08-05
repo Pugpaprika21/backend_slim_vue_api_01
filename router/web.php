@@ -14,9 +14,59 @@ $app->addRoutingMiddleware();
 
 $app->addErrorMiddleware(true, true, true);
 
+$app->add(function ($request, $handler) {
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', '*')
+        ->withHeader('Access-Control-Allow-Methods', '*');
+});
+
 $query = new Query('mysql');
 
-const AUTHORIZED = 'bWVldGluZy5ibWE6bWVldGluZy5iaXpwb3RlbnRpYWw=';
+$app->post('/createUser', function (Request $request, Response $response, array $args) use ($query) {
+
+    $params = $request->getQueryParams()['params'];
+
+    if (!isset($params['token'])) {
+        throw new Exception('AUTHORIZED_ERROR', 1);
+    }
+
+    if (!empty($params['user'])) {
+        $user = $params['user'];
+
+        $create = $query->table('user_tb')->insert([
+            'user_name' => str($user['user_name']),
+            'user_pass' => str($user['user_pass']),
+            'user_phone' => str($user['user_phone']),
+            'user_email' => str($user['user_email']),
+            'user_token' => U_SYS_TOKEN,
+            'user_status' => 'Y',
+            'create_user_at' => 0,
+            'create_date_at' => CREATE_DATE_AT,
+            'create_time_at' => CREATE_TIME_AT,
+            'create_ip_at' => U_IP
+        ]);
+
+        if ($create) {
+            $rowCreate = $query->table('user_tb')->select('user_id')->orderBy('user_id', 'desc')->get();
+            $rows = count($rowCreate);
+
+            $payload = json_encode(['data' => $rowCreate, 'status_bool' => true, 'rows' => $rows]);
+            $response->getBody()->write($payload);
+        } else {
+            $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+            $response->getBody()->write($payload);
+        }
+    } else {
+        $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+        $response->getBody()->write($payload);
+    }
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')->withStatus(201);
+});
 
 $app->get('/getUsers', function (Request $request, Response $response, array $args) use ($query) {
 
@@ -45,9 +95,6 @@ $app->get('/getUsers', function (Request $request, Response $response, array $ar
     }
 
     return $response
-        ->withHeader('Access-Control-Allow-Methods', 'GET')
-        ->withHeader('Access-Control-Allow-Headers', '*')
-        ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
@@ -72,13 +119,10 @@ $app->get('/editUser/{userId}', function (Request $request, Response $response, 
     }
 
     return $response
-        ->withHeader('Access-Control-Allow-Methods', 'GET')
-        ->withHeader('Access-Control-Allow-Headers', '*')
-        ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
-$app->get('/updateUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
+$app->put('/updateUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
 
     $params = $request->getQueryParams();
 
@@ -119,20 +163,35 @@ $app->get('/updateUser/{userId}', function (Request $request, Response $response
     }
 
     return $response
-        ->withHeader('Access-Control-Allow-Methods', '*')
-        ->withHeader('Access-Control-Allow-Headers', '*')
-        ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
-$app->delete('/deleteUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
+$app->delete('/deleteUser', function (Request $request, Response $response, array $args) use ($query) {
 
-    $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
-    $response->getBody()->write($payload);
+    $params = $request->getQueryParams();
+
+    if (!isset($params['token'])) {
+        throw new Exception('AUTHORIZED_ERROR', 1);
+    }
+
+    if ($params['token'] == AUTHORIZED) {
+
+        $userId = str($params['userId']);
+        $deleteUser = $query->table('user_tb')->where('user_id', '=', $userId)->delete();
+
+        if ($deleteUser) {
+            $payload = json_encode(['data' => $userId, 'status_bool' => true, 'rows' => 1]);
+            $response->getBody()->write($payload);
+        } else {
+            $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+            $response->getBody()->write($payload);
+        }
+    } else {
+        $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+        $response->getBody()->write($payload);
+    }
+
     return $response
-        ->withHeader('Access-Control-Allow-Methods', '*')
-        ->withHeader('Access-Control-Allow-Headers', '*')
-        ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 

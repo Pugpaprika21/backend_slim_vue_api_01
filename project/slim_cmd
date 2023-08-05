@@ -9,3 +9,15 @@ route param --
 
 $app->get('/', [HomeController::class, 'indexPage'])->setName('index-page');
 $app->get('/page/user/[{id}/{action}]', [HomeController::class, 'formHome'])->setName('home-page');
+
+// $app->options('/{routes:.+}', function ($request, $response, $args) {
+//     return $response;
+// });
+
+
+$payload = json_encode(['data' => [], 'status_bool' => true, 'message' => 'User updated successfully']);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(200)
+        ->getBody()->write($payload);

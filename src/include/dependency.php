@@ -31,3 +31,8 @@ $capsule = new Capsule;
 $capsule->addConnection($database['connection']['eloquent']);
 $capsule->bootEloquent();
 $capsule->setAsGlobal();
+
+
+/* token */
+
+const AUTHORIZED = 'bWVldGluZy5ibWE6bWVldGluZy5iaXpwb3RlbnRpYWw=';
