@@ -125,8 +125,8 @@ $app->get('/updateUser/{userId}', function (Request $request, Response $response
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
-$app->get('/deleteUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
-    
+$app->delete('/deleteUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
+
     $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
     $response->getBody()->write($payload);
     return $response
