@@ -78,4 +78,51 @@ $app->get('/editUser/{userId}', function (Request $request, Response $response, 
         ->withHeader('Content-Type', 'application/json')->withStatus(201);
 });
 
+$app->get('/updateUser/{userId}', function (Request $request, Response $response, array $args) use ($query) {
+
+    $params = $request->getQueryParams();
+
+    if (!isset($params['token'])) {
+        throw new Exception('AUTHORIZED_ERROR', 1);
+    }
+
+    if ($params['token'] == AUTHORIZED) {
+
+        if (!empty($params['user'])) {
+            $body = $params['user'];
+            $userId = str($args['userId']);
+
+            $set = [
+                'user_name' => str($body['user_name']),
+                'user_email' => str($body['user_email']),
+            ];
+
+            $userUpdate = $query->table('user_tb')->fields($set)->where('user_id', '=', $userId)->update();
+            if ($userUpdate) {
+
+                $updateRec = $query->table('user_tb')->select('user_id', 'user_name', 'user_email')->where('user_id', '=', $userId)->get();
+                $rows = count($updateRec);
+
+                $payload = json_encode(['data' => $updateRec, 'status_bool' => true, 'rows' => $rows]);
+                $response->getBody()->write($payload);
+            } else {
+                $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+                $response->getBody()->write($payload);
+            }
+        } else {
+            $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+            $response->getBody()->write($payload);
+        }
+    } else {
+        $payload = json_encode(['data' => [], 'status_bool' => false, 'rows' => 0]);
+        $response->getBody()->write($payload);
+    }
+
+    return $response
+        ->withHeader('Access-Control-Allow-Methods', '*')
+        ->withHeader('Access-Control-Allow-Headers', '*')
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Content-Type', 'application/json')->withStatus(201);
+});
+
 $app->run();
